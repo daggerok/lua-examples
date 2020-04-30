@@ -10,7 +10,7 @@ jobs:
         luarocks: [3.3.1]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
-    name: tests with java-${{ matrix.java }}
+    name: tests with lua-${{ matrix.lua }}
     steps:
     - uses: actions/checkout@v1
     - uses: leafo/gh-actions-lua@v5
@@ -19,12 +19,6 @@ jobs:
     - uses: leafo/gh-actions-luarocks@v2
       with:
         luarocksVersion: ${{ matrix.luarocks }}
-    - uses: actions/cache@v1
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-java-${{ hashFiles('**/mvnw') }}
-        restore-keys: |
-          ${{ runner.os }}-java-
     - run: cd $GITHUB_WORKSPACE/template && luarocks install busted
     #- run: cd $GITHUB_WORKSPACE/template && luarocks make
     - run: lua $GITHUB_WORKSPACE/template/main.lua
